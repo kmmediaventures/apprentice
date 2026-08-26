@@ -119,6 +119,31 @@
   }
 
   renderTable();
+
+function exportCSV() {
+  if (entries.length === 0) {
+    alert("No hours to export.");
+    return;
+  }
+
+  let csv = "Date,Job,Task,Hours\n";
+
+  entries.forEach(entry => {
+    csv += `${entry.date},${entry.job},${entry.task},${entry.hours}\n`;
+  });
+
+  // Create downloadable file
+  const blob = new Blob([csv], { type: "text/csv" });
+  const url = URL.createObjectURL(blob);
+
+  const a = document.createElement("a");
+  a.href = url;
+  a.download = "apprentice_hours.csv";
+  a.click();
+
+  URL.revokeObjectURL(url);
+}
+  
 </script>
 
 </body>
