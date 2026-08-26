@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Conduit Fill Calculator</title>
+    <link rel="stylesheet" href="../css/style.css">
+    <script defer src="../js/conduit-fill.js"></script>
+</head>
+
+<body>
+    <h1>Conduit Fill Calculator</h1>
+
+    <div class="calculator-container">
+        <label>Conduit Type:</label>
+        <select id="conduitType">
+            <option value="emt">EMT</option>
+            <option value="pvc40">PVC Schedule 40</option>
+            <option value="pvc80">PVC Schedule 80</option>
+        </select>
+
+        <label>Conduit Size:</label>
+        <select id="conduitSize">
+            <option value="0.5">1/2"</option>
+            <option value="0.75">3/4"</option>
+            <option value="1">1"</option>
+            <option value="1.25">1-1/4"</option>
+            <option value="1.5">1-1/2"</option>
+            <option value="2">2"</option>
+        </select>
+
+        <label>Wire Gauge (THHN):</label>
+        <select id="wireGauge">
+            <option value="14">#14</option>
+            <option value="12">#12</option>
+            <option value="10">#10</option>
+            <option value="8">#8</option>
+            <option value="6">#6</option>
+            <option value="4">#4</option>
+            <option value="2">#2</option>
+            <option value="1/0">1/0</option>
+            <option value="2/0">2/0</option>
+            <option value="3/0">3/0</option>
+            <option value="4/0">4/0</option>
+        </select>
+
+        <label>Number of Conductors:</label>
+        <input type="number" id="wireCount" min="1" value="1">
+
+        <button id="calculateBtn">Calculate Fill</button>
+    </div>
+
+    <div id="results" class="results-container"></div>
+
+</body>
+</html>
