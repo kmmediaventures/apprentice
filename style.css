@@ -1,0 +1,175 @@
+body {
+  font-family: 'Segoe UI', Arial, sans-serif;
+  margin: 0;
+  background: #eef2f7;
+  color: #222;
+}
+
+header {
+  background: #0a4a8a;
+  color: white;
+  padding: 12px 16px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 20px;
+  font-weight: bold;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+}
+
+.container {
+  max-width: 900px;
+  margin: 20px auto;
+  padding: 0 15px 30px;
+}
+
+.card {
+  background: white;
+  padding: 20px;
+  border-radius: 12px;
+  box-shadow: 0 3px 8px rgba(0,0,0,0.1);
+  margin-bottom: 20px;
+}
+
+label {
+  font-weight: 600;
+  margin-top: 10px;
+  display: block;
+}
+
+input, select {
+  width: 100%;
+  padding: 10px;
+  margin-top: 6px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  font-size: 16px;
+}
+
+button {
+  width: 100%;
+  padding: 12px;
+  margin-top: 15px;
+  background: #0a4a8a;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-size: 16px;
+  cursor: pointer;
+  font-weight: 600;
+}
+
+button:hover {
+  background: #083a6c;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 15px;
+}
+
+th {
+  background: #0a4a8a;
+  color: white;
+  padding: 10px;
+  font-size: 15px;
+}
+
+td {
+  padding: 8px;
+  border-bottom: 1px solid #ddd;
+  font-size: 14px;
+}
+
+.delete-btn {
+  background: #c62828;
+  padding: 6px 10px;
+  border: none;
+  color: white;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+#totalHours {
+  font-size: 16px;
+  font-weight: bold;
+  margin-top: 10px;
+  text-align: right;
+}
+
+.hint {
+  font-size: 13px;
+  color: #555;
+  margin-top: 8px;
+}
+
+/* Sidebar */
+
+.sidebar {
+  position: fixed;
+  left: -250px;
+  top: 0;
+  width: 250px;
+  height: 100%;
+  background: #0a4a8a;
+  color: white;
+  padding: 20px;
+  transition: 0.3s;
+  z-index: 1000;
+}
+
+.sidebar-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 15px;
+}
+
+.sidebar a {
+  display: block;
+  padding: 10px 0;
+  color: white;
+  text-decoration: none;
+  font-size: 16px;
+}
+
+.sidebar a:hover {
+  text-decoration: underline;
+}
+
+.menu-btn {
+  background: #083a6c;
+  color: white;
+  border: none;
+  padding: 8px 12px;
+  font-size: 20px;
+  border-radius: 8px;
+}
+
+/* Dark mode */
+
+body.dark {
+  background: #121212;
+  color: #e0e0e0;
+}
+
+body.dark header {
+  background: #222;
+}
+
+body.dark .card {
+  background: #1e1e1e;
+  color: #e0e0e0;
+}
+
+body.dark th {
+  background: #333;
+}
+
+body.dark input,
+body.dark select {
+  background: #222;
+  color: #e0e0e0;
+  border-color: #555;
+}
