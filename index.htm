@@ -1,150 +1,104 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<title>Apprentice Hours Tracker</title>
-<style>
-  body { font-family: Arial, sans-serif; margin: 20px; background: #f4f4f4; }
-  h1 { text-align: center; }
-  .container { max-width: 600px; margin: auto; background: white; padding: 20px; border-radius: 10px; }
-  label { display: block; margin-top: 10px; }
-  input, select { width: 100%; padding: 8px; margin-top: 5px; }
-  button { margin-top: 15px; padding: 10px; width: 100%; background: #0077cc; color: white; border: none; border-radius: 5px; }
-  table { width: 100%; margin-top: 20px; border-collapse: collapse; }
-  th, td { padding: 10px; border-bottom: 1px solid #ddd; }
-  .delete-btn { background: red; color: white; padding: 5px; border: none; border-radius: 5px; cursor: pointer; }
-  #totalHours { font-weight: bold; margin-top: 20px; }
-</style>
+  <meta charset="UTF-8">
+  <title>Apprentice Hours App</title>
+  <link rel="stylesheet" href="style.css">
+  <!-- Chart.js CDN -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
 <body>
 
-<div class="container">
-  <h1>Apprentice Hours Tracker</h1>
+<header>
+  <button id="openMenu" class="menu-btn">☰</button>
+  <span>Apprentice Hours Tracker</span>
+</header>
 
-  <label>Date:</label>
-  <input type="date" id="date">
-
-  <label>Job / Company:</label>
-  <input type="text" id="job">
-
-  <label>Task Type:</label>
-  <select id="task">
-    <option value="Rough-In">Rough-In</option>
-    <option value="Service Work">Service Work</option>
-    <option value="Panels">Panels</option>
-    <option value="Troubleshooting">Troubleshooting</option>
-    <option value="Other">Other</option>
-  </select>
-
-  <label>Hours:</label>
-  <input type="number" id="hours" step="0.1">
-
-  <button onclick="addEntry()">Add Entry</button>
-
-  <h2>Logged Hours</h2>
-  <table id="hoursTable">
-    <tr>
-      <th>Date</th>
-      <th>Job</th>
-      <th>Task</th>
-      <th>Hours</th>
-      <th>Delete</th>
-    </tr>
-  </table>
-
-  <div id="totalHours">Total Hours: 0</div>
-
-<button onclick="exportCSV()">Export as CSV</button>
-  
+<div id="sidebar" class="sidebar">
+  <div class="sidebar-header">
+    <h2>Menu</h2>
+    <button id="closeMenu">✖</button>
+  </div>
+  <a href="#" data-section="dashboardSection">📊 Dashboard</a>
+  <a href="#" data-section="hoursSection">🕒 Hours Tracker</a>
+  <a href="#" data-section="reportSection">🖨 Print Report</a>
+  <a href="#" id="toggleDark">🌙 Dark Mode</a>
+  <a href="#" id="logout">🚪 Logout</a>
 </div>
 
-<script>
-  let entries = JSON.parse(localStorage.getItem("apprenticeHours")) || [];
+<div class="container">
 
-  function saveEntries() {
-    localStorage.setItem("apprenticeHours", JSON.stringify(entries));
-  }
+  <!-- Login Screen -->
+  <div id="loginScreen" class="card">
+    <h2>Login</h2>
+    <label>Username</label>
+    <input id="username" placeholder="Username">
+    <label>Password</label>
+    <input id="password" type="password" placeholder="Password">
+    <button id="loginBtn">Login</button>
+    <p class="hint">Try: Kevin / electrician</p>
+  </div>
 
-  function addEntry() {
-    const date = document.getElementById("date").value;
-    const job = document.getElementById("job").value;
-    const task = document.getElementById("task").value;
-    const hours = parseFloat(document.getElementById("hours").value);
+  <!-- App Screen -->
+  <div id="appScreen" style="display:none;">
 
-    if (!date || !job || !hours) {
-      alert("Please fill out all fields.");
-      return;
-    }
+    <!-- Dashboard -->
+    <div id="dashboardSection" class="card">
+      <h2>📊 Dashboard</h2>
+      <p id="summaryText"></p>
+      <canvas id="weeklyChart"></canvas>
+      <canvas id="monthlyChart"></canvas>
+    </div>
 
-    entries.push({ date, job, task, hours });
-    saveEntries();
-    renderTable();
-  }
+    <!-- Hours Tracker -->
+    <div id="hoursSection" class="card">
+      <h2>🕒 Log Your Hours</h2>
 
-  function deleteEntry(index) {
-    entries.splice(index, 1);
-    saveEntries();
-    renderTable();
-  }
+      <label>Date</label>
+      <input type="date" id="date">
 
-  function renderTable() {
-    const table = document.getElementById("hoursTable");
-    table.innerHTML = `
-      <tr>
-        <th>Date</th>
-        <th>Job</th>
-        <th>Task</th>
-        <th>Hours</th>
-        <th>Delete</th>
-      </tr>
-    `;
+      <label>Job / Company</label>
+      <input type="text" id="job">
 
-    let total = 0;
+      <label>Task Type</label>
+      <select id="task">
+        <option value="Rough-In">Rough-In</option>
+        <option value="Service Work">Service Work</option>
+        <option value="Panels">Panels</option>
+        <option value="Troubleshooting">Troubleshooting</option>
+        <option value="Other">Other</option>
+      </select>
 
-    entries.forEach((entry, index) => {
-      total += entry.hours;
+      <label>Hours</label>
+      <input type="number" id="hours" step="0.1">
 
-      const row = document.createElement("tr");
-      row.innerHTML = `
-        <td>${entry.date}</td>
-        <td>${entry.job}</td>
-        <td>${entry.task}</td>
-        <td>${entry.hours}</td>
-        <td><button class="delete-btn" onclick="deleteEntry(${index})">X</button></td>
-      `;
-      table.appendChild(row);
-    });
+      <button id="addEntryBtn">Add Entry</button>
 
-    document.getElementById("totalHours").innerText = "Total Hours: " + total;
-  }
+      <h3>Logged Hours</h3>
+      <table id="hoursTable">
+        <tr>
+          <th>Date</th>
+          <th>Job</th>
+          <th>Task</th>
+          <th>Hours</th>
+          <th>Delete</th>
+        </tr>
+      </table>
 
-  renderTable();
+      <div id="totalHours">Total Hours: 0</div>
+      <button id="exportCsvBtn">Export as CSV</button>
+    </div>
 
-function exportCSV() {
-  if (entries.length === 0) {
-    alert("No hours to export.");
-    return;
-  }
+    <!-- Report -->
+    <div id="reportSection" class="card">
+      <h2>🖨 Printable Report</h2>
+      <div id="report"></div>
+      <button onclick="window.print()">Print Report</button>
+    </div>
 
-  let csv = "Date,Job,Task,Hours\n";
+  </div>
+</div>
 
-  entries.forEach(entry => {
-    csv += `${entry.date},${entry.job},${entry.task},${entry.hours}\n`;
-  });
-
-  // Create downloadable file
-  const blob = new Blob([csv], { type: "text/csv" });
-  const url = URL.createObjectURL(blob);
-
-  const a = document.createElement("a");
-  a.href = url;
-  a.download = "apprentice_hours.csv";
-  a.click();
-
-  URL.revokeObjectURL(url);
-}
-  
-</script>
-
+<script src="script.js"></script>
 </body>
 </html>
